@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
 use App\Http\Requests\Delivery\StoreRequest;
+use App\Http\Resources\PigeonResource;
 
 class Delivery extends Model
 {
@@ -46,7 +47,15 @@ class Delivery extends Model
                 $pigeon->status = 'flying';
                 $pigeon->save();
 
-                $request->pigeon = $pigeon;
+                $request->pigeon = [
+                    'name' => $pigeon->name,
+                    'speed' => $pigeon->speed,
+                    'range' => $pigeon->range,
+                    'cost' => $pigeon->cost,
+                    'downtime' => $pigeon->downtime,
+                    'uptime' => $pigeon->uptime??null,
+                    'status' => $pigeon->status
+                ];
                 break;
             }
         }   
